@@ -4,18 +4,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>test | Xookie</title>
+  <title>Lists | Xookie</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="这是一篇测试文章。此博客用于记录编程学习。">
+  <meta name="description" content="今天重新回顾了一下链表(Lists)，有几点想法： 1.单链表的头指针和头结点头指针是指向链表第一个结点的指针，头结点是链表的第一个结点。 头结点区别于链表的首元结点，链表的首元结点为第一个存有数据的节点。头结点的出现是为了使对第一个结点前插入和删除第一个结点的操作与其他结点统一。头结点的数据域一般无意义或放置链表长度等数据。头结点不是必须的。 头指针是指向链表第一个节点的指针，当有头结点时，头指">
 <meta property="og:type" content="article">
-<meta property="og:title" content="test">
-<meta property="og:url" content="http://yoursite.com/2017/07/04/test/index.html">
+<meta property="og:title" content="Lists">
+<meta property="og:url" content="http://yoursite.com/2017/07/06/Lists/index.html">
 <meta property="og:site_name" content="Xookie">
-<meta property="og:description" content="这是一篇测试文章。此博客用于记录编程学习。">
-<meta property="og:updated_time" content="2017-07-04T12:17:29.151Z">
+<meta property="og:description" content="今天重新回顾了一下链表(Lists)，有几点想法： 1.单链表的头指针和头结点头指针是指向链表第一个结点的指针，头结点是链表的第一个结点。 头结点区别于链表的首元结点，链表的首元结点为第一个存有数据的节点。头结点的出现是为了使对第一个结点前插入和删除第一个结点的操作与其他结点统一。头结点的数据域一般无意义或放置链表长度等数据。头结点不是必须的。 头指针是指向链表第一个节点的指针，当有头结点时，头指">
+<meta property="og:updated_time" content="2017-07-06T16:20:06.804Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="test">
-<meta name="twitter:description" content="这是一篇测试文章。此博客用于记录编程学习。">
+<meta name="twitter:title" content="Lists">
+<meta name="twitter:description" content="今天重新回顾了一下链表(Lists)，有几点想法： 1.单链表的头指针和头结点头指针是指向链表第一个结点的指针，头结点是链表的第一个结点。 头结点区别于链表的首元结点，链表的首元结点为第一个存有数据的节点。头结点的出现是为了使对第一个结点前插入和删除第一个结点的操作与其他结点统一。头结点的数据域一般无意义或放置链表长度等数据。头结点不是必须的。 头指针是指向链表第一个节点的指针，当有头结点时，头指">
   
     <link rel="alternative" href="/atom.xml" title="Xookie" type="application/atom+xml">
   
@@ -67,10 +67,10 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main"><article id="post-test" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-Lists" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/07/04/test/" class="article-date">
-  <time datetime="2017-07-04T12:09:05.000Z" itemprop="datePublished">2017-07-04</time>
+    <a href="/2017/07/06/Lists/" class="article-date">
+  <time datetime="2017-07-06T14:56:05.000Z" itemprop="datePublished">2017-07-06</time>
 </a>
     
   </div>
@@ -81,7 +81,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      test
+      Lists
     </h1>
   
 
@@ -89,17 +89,49 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>这是一篇测试文章。<br>此博客用于记录编程学习。</p>
+        <p>今天重新回顾了一下链表(Lists)，有几点想法：</p>
+<p></p><h3>1.单链表的头指针和头结点</h3><br>头指针是指向链表第一个结点的指针，头结点是链表的第一个结点。<p></p>
+<p>头结点区别于链表的首元结点，链表的首元结点为第一个存有数据的节点。头结点的出现是为了使对第一个结点前插入和删除第一个结点的操作与其他结点统一。头结点的数据域一般无意义或放置链表长度等数据。头结点不是必须的。</p>
+<p>头指针是指向链表第一个节点的指针，当有头结点时，头指针指向头结点。头指针是必须的。</p>
+<p>具体代码如下：</p>
+<pre><code>typedef struct Node
+{
+    int data;
+    struct Node *Next;
+}Node, *List;
+List L;
+L = malloc (sizeof (Node));
+if (L==null)
+    printf ("Out of Memory!");
+else 
+    L->Next = null;
+</code></pre>
+
+<p></p><h3>2.关于链表结构实现多项式的加法和乘法</h3><br>用链表实现多项式的优点在于，省去了系数为0的项的存储空间和计算时间，操作方便。初步的想法是这样：<p></p>
+<pre><code>typedef struct Node
+{
+    int coef;
+    int exp;
+    struct Node *Next;
+}Node, *Polynomial;
+
+int AddPolynomial (Polynomial src, Polynomial dst);
+int MultPolynomial (Polynomial poly1, Polynomial poly2, Polynomial polyMul);
+</code></pre>
+
+<p>加法的函数是将两个多项式的结果保存在一个中，当然这破坏了原有多项式的结构，不过为了计算乘法方便，所以采用这样的方式。需要注意的是多项式相加后系数为0时需释放空间。</p>
+<p>乘法的函数则需要先初始化一个Temp链表和一个结果链表，然后每次循环将poly1的一个元素与poly2的每个元素相乘，由于Poly2中没有重复元素，所以无需判断，结果放到Temp链表中，每次循环结束时，调用相加的函数将Temp列表和结果链表相加，即可避免多项式的合并问题。为避免重复对内存进行分配和释放操作，可在头结点中记录当前链表的长度，提前分配Temp链表的空间，循环中只对值进行操作即可。</p>
+<p>此想法未经代码验证。</p>
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/2017/07/04/test/" data-id="cj4sn1zbr000140nr0dtdu0sz" class="article-share-link" data-share="baidu" data-title="test">分享到</a>
+        <a data-url="http://yoursite.com/2017/07/06/Lists/" data-id="cj4sn1zbi000040nrldoattbw" class="article-share-link" data-share="baidu" data-title="Lists">分享到</a>
       
 
       
-        <a href="http://yoursite.com/2017/07/04/test/#ds-thread" class="article-comment-link">评论</a>
+        <a href="http://yoursite.com/2017/07/06/Lists/#ds-thread" class="article-comment-link">评论</a>
       
 
       
@@ -109,15 +141,11 @@
     
 <nav id="article-nav">
   
-    <a href="/2017/07/06/Lists/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">下一篇</strong>
-      <div class="article-nav-title">
-        
-          Lists
-        
-      </div>
-    </a>
   
+    <a href="/2017/07/04/test/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">test</div>
+    </a>
   
 </nav>
 
@@ -126,7 +154,7 @@
 
 
   <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="2017/07/04/test/" data-title="test" data-url="http://yoursite.com/2017/07/04/test/"></div>
+    <div id="ds-thread" class="ds-thread" data-thread-key="2017/07/06/Lists/" data-title="Lists" data-url="http://yoursite.com/2017/07/06/Lists/"></div>
   </section>
 </section>
       
