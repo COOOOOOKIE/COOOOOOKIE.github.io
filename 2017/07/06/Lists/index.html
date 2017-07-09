@@ -7,12 +7,13 @@
   <title>Lists | Xookie</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="今天重新回顾了一下链表(Lists)，有几点想法： 1.单链表的头指针和头结点头指针是指向链表第一个结点的指针，头结点是链表的第一个结点。 头结点区别于链表的首元结点，链表的首元结点为第一个存有数据的节点。头结点的出现是为了使对第一个结点前插入和删除第一个结点的操作与其他结点统一。头结点的数据域一般无意义或放置链表长度等数据。头结点不是必须的。 头指针是指向链表第一个节点的指针，当有头结点时，头指">
+<meta name="keywords" content="Data Structure">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Lists">
 <meta property="og:url" content="http://yoursite.com/2017/07/06/Lists/index.html">
 <meta property="og:site_name" content="Xookie">
 <meta property="og:description" content="今天重新回顾了一下链表(Lists)，有几点想法： 1.单链表的头指针和头结点头指针是指向链表第一个结点的指针，头结点是链表的第一个结点。 头结点区别于链表的首元结点，链表的首元结点为第一个存有数据的节点。头结点的出现是为了使对第一个结点前插入和删除第一个结点的操作与其他结点统一。头结点的数据域一般无意义或放置链表长度等数据。头结点不是必须的。 头指针是指向链表第一个节点的指针，当有头结点时，头指">
-<meta property="og:updated_time" content="2017-07-06T16:20:06.804Z">
+<meta property="og:updated_time" content="2017-07-09T03:49:24.316Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Lists">
 <meta name="twitter:description" content="今天重新回顾了一下链表(Lists)，有几点想法： 1.单链表的头指针和头结点头指针是指向链表第一个结点的指针，头结点是链表的第一个结点。 头结点区别于链表的首元结点，链表的首元结点为第一个存有数据的节点。头结点的出现是为了使对第一个结点前插入和删除第一个结点的操作与其他结点统一。头结点的数据域一般无意义或放置链表长度等数据。头结点不是必须的。 头指针是指向链表第一个节点的指针，当有头结点时，头指">
@@ -90,35 +91,13 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>今天重新回顾了一下链表(Lists)，有几点想法：</p>
-<p></p><h3>1.单链表的头指针和头结点</h3><br>头指针是指向链表第一个结点的指针，头结点是链表的第一个结点。<p></p>
+<p></p><h5>1.单链表的头指针和头结点</h5><br>头指针是指向链表第一个结点的指针，头结点是链表的第一个结点。<p></p>
 <p>头结点区别于链表的首元结点，链表的首元结点为第一个存有数据的节点。头结点的出现是为了使对第一个结点前插入和删除第一个结点的操作与其他结点统一。头结点的数据域一般无意义或放置链表长度等数据。头结点不是必须的。</p>
 <p>头指针是指向链表第一个节点的指针，当有头结点时，头指针指向头结点。头指针是必须的。</p>
 <p>具体代码如下：</p>
-<pre><code>typedef struct Node
-{
-    int data;
-    struct Node *Next;
-}Node, *List;
-List L;
-L = malloc (sizeof (Node));
-if (L==null)
-    printf ("Out of Memory!");
-else 
-    L->Next = null;
-</code></pre>
-
-<p></p><h3>2.关于链表结构实现多项式的加法和乘法</h3><br>用链表实现多项式的优点在于，省去了系数为0的项的存储空间和计算时间，操作方便。初步的想法是这样：<p></p>
-<pre><code>typedef struct Node
-{
-    int coef;
-    int exp;
-    struct Node *Next;
-}Node, *Polynomial;
-
-int AddPolynomial (Polynomial src, Polynomial dst);
-int MultPolynomial (Polynomial poly1, Polynomial poly2, Polynomial polyMul);
-</code></pre>
-
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> data;</div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Node</span> *<span class="title">Next</span>;</span></div><div class="line">&#125;Node, *List;</div><div class="line">List L;</div><div class="line">L = <span class="built_in">malloc</span> (<span class="keyword">sizeof</span> (Node));</div><div class="line"><span class="keyword">if</span> (L==null)</div><div class="line">    <span class="built_in">printf</span> (<span class="string">"Out of Memory!"</span>);</div><div class="line"><span class="keyword">else</span> </div><div class="line">    L-&gt;Next = null;</div></pre></td></tr></table></figure>
+<p></p><h5>2.关于链表结构实现多项式的加法和乘法</h5><br>用链表实现多项式的优点在于，省去了系数为0的项的存储空间和计算时间，操作方便。初步的想法是这样：<p></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> coef;</div><div class="line">    <span class="keyword">int</span> <span class="built_in">exp</span>;</div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Node</span> *<span class="title">Next</span>;</span></div><div class="line">&#125;Node, *Polynomial;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">AddPolynomial</span> <span class="params">(Polynomial src, Polynomial dst)</span></span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">MultPolynomial</span> <span class="params">(Polynomial poly1, Polynomial poly2, Polynomial polyMul)</span></span>;</div></pre></td></tr></table></figure>
 <p>加法的函数是将两个多项式的结果保存在一个中，当然这破坏了原有多项式的结构，不过为了计算乘法方便，所以采用这样的方式。需要注意的是多项式相加后系数为0时需释放空间。</p>
 <p>乘法的函数则需要先初始化一个Temp链表和一个结果链表，然后每次循环将poly1的一个元素与poly2的每个元素相乘，由于Poly2中没有重复元素，所以无需判断，结果放到Temp链表中，每次循环结束时，调用相加的函数将Temp列表和结果链表相加，即可避免多项式的合并问题。为避免重复对内存进行分配和释放操作，可在头结点中记录当前链表的长度，提前分配Temp链表的空间，循环中只对值进行操作即可。</p>
 <p>此想法未经代码验证。</p>
@@ -127,7 +106,7 @@ int MultPolynomial (Polynomial poly1, Polynomial poly2, Polynomial polyMul);
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/2017/07/06/Lists/" data-id="cj4sn1zbi000040nrldoattbw" class="article-share-link" data-share="baidu" data-title="Lists">分享到</a>
+        <a data-url="http://yoursite.com/2017/07/06/Lists/" data-id="cj4wg2rc70001tknr8p6b5o9l" class="article-share-link" data-share="baidu" data-title="Lists">分享到</a>
       
 
       
@@ -135,11 +114,22 @@ int MultPolynomial (Polynomial poly1, Polynomial poly2, Polynomial polyMul);
       
 
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Data-Structure/">Data Structure</a></li></ul>
+
     </footer>
   </div>
   
     
 <nav id="article-nav">
+  
+    <a href="/2017/07/09/Lists-2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">
+        
+          Lists(2)
+        
+      </div>
+    </a>
   
   
     <a href="/2017/07/04/test/" id="article-nav-older" class="article-nav-link-wrap">
@@ -163,14 +153,28 @@ int MultPolynomial (Polynomial poly1, Polynomial poly2, Polynomial polyMul);
     
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data-Structure/">Data Structure</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Data-Structure/" style="font-size: 10px;">Data Structure</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -180,6 +184,10 @@ int MultPolynomial (Polynomial poly1, Polynomial poly2, Polynomial polyMul);
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/07/09/Lists-2/">Lists(2)</a>
+          </li>
         
           <li>
             <a href="/2017/07/06/Lists/">Lists</a>

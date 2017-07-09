@@ -4,14 +4,22 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Xookie</title>
+  <title>Lists(2) | Xookie</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Xookie">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="前天用链表实现了多项式的加法和乘法。具体代码由于在公司的电脑上，在这里就不贴了。实现的时候注意到几个问题，也是之前自己忽略的，在这里记录一下吧。 1.C语言的函数中变量的声明位置这个问题可以说是比较低级了，也是C语言的基础知识。我写了下面这段代码：12345678910111213int MultPolynomial (const Polynomial Poly1, const Polynomia">
+<meta name="keywords" content="Data Structure">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lists(2)">
+<meta property="og:url" content="http://yoursite.com/2017/07/09/Lists-2/index.html">
 <meta property="og:site_name" content="Xookie">
+<meta property="og:description" content="前天用链表实现了多项式的加法和乘法。具体代码由于在公司的电脑上，在这里就不贴了。实现的时候注意到几个问题，也是之前自己忽略的，在这里记录一下吧。 1.C语言的函数中变量的声明位置这个问题可以说是比较低级了，也是C语言的基础知识。我写了下面这段代码：12345678910111213int MultPolynomial (const Polynomial Poly1, const Polynomia">
+<meta property="og:image" content="http://yoursite.com/img/list_2_1.png">
+<meta property="og:image" content="http://yoursite.com/img/list_2_2.png">
+<meta property="og:updated_time" content="2017-07-09T08:15:22.047Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Xookie">
+<meta name="twitter:title" content="Lists(2)">
+<meta name="twitter:description" content="前天用链表实现了多项式的加法和乘法。具体代码由于在公司的电脑上，在这里就不贴了。实现的时候注意到几个问题，也是之前自己忽略的，在这里记录一下吧。 1.C语言的函数中变量的声明位置这个问题可以说是比较低级了，也是C语言的基础知识。我写了下面这段代码：12345678910111213int MultPolynomial (const Polynomial Poly1, const Polynomia">
+<meta name="twitter:image" content="http://yoursite.com/img/list_2_1.png">
   
     <link rel="alternative" href="/atom.xml" title="Xookie" type="application/atom+xml">
   
@@ -63,9 +71,7 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main">
-  
-    <article id="post-Lists-2" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-Lists-2" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/07/09/Lists-2/" class="article-date">
   <time datetime="2017-07-09T03:14:50.000Z" itemprop="datePublished">2017-07-09</time>
@@ -78,8 +84,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/09/Lists-2/">Lists(2)</a>
+    <h1 class="article-title" itemprop="name">
+      Lists(2)
     </h1>
   
 
@@ -110,109 +116,24 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-Lists" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/06/Lists/" class="article-date">
-  <time datetime="2017-07-06T14:56:05.000Z" itemprop="datePublished">2017-07-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/06/Lists/">Lists</a>
-    </h1>
+    <a href="/2017/07/06/Lists/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">Lists</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天重新回顾了一下链表(Lists)，有几点想法：</p>
-<p></p><h5>1.单链表的头指针和头结点</h5><br>头指针是指向链表第一个结点的指针，头结点是链表的第一个结点。<p></p>
-<p>头结点区别于链表的首元结点，链表的首元结点为第一个存有数据的节点。头结点的出现是为了使对第一个结点前插入和删除第一个结点的操作与其他结点统一。头结点的数据域一般无意义或放置链表长度等数据。头结点不是必须的。</p>
-<p>头指针是指向链表第一个节点的指针，当有头结点时，头指针指向头结点。头指针是必须的。</p>
-<p>具体代码如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> data;</div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Node</span> *<span class="title">Next</span>;</span></div><div class="line">&#125;Node, *List;</div><div class="line">List L;</div><div class="line">L = <span class="built_in">malloc</span> (<span class="keyword">sizeof</span> (Node));</div><div class="line"><span class="keyword">if</span> (L==null)</div><div class="line">    <span class="built_in">printf</span> (<span class="string">"Out of Memory!"</span>);</div><div class="line"><span class="keyword">else</span> </div><div class="line">    L-&gt;Next = null;</div></pre></td></tr></table></figure>
-<p></p><h5>2.关于链表结构实现多项式的加法和乘法</h5><br>用链表实现多项式的优点在于，省去了系数为0的项的存储空间和计算时间，操作方便。初步的想法是这样：<p></p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> coef;</div><div class="line">    <span class="keyword">int</span> <span class="built_in">exp</span>;</div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Node</span> *<span class="title">Next</span>;</span></div><div class="line">&#125;Node, *Polynomial;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">AddPolynomial</span> <span class="params">(Polynomial src, Polynomial dst)</span></span>;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">MultPolynomial</span> <span class="params">(Polynomial poly1, Polynomial poly2, Polynomial polyMul)</span></span>;</div></pre></td></tr></table></figure>
-<p>加法的函数是将两个多项式的结果保存在一个中，当然这破坏了原有多项式的结构，不过为了计算乘法方便，所以采用这样的方式。需要注意的是多项式相加后系数为0时需释放空间。</p>
-<p>乘法的函数则需要先初始化一个Temp链表和一个结果链表，然后每次循环将poly1的一个元素与poly2的每个元素相乘，由于Poly2中没有重复元素，所以无需判断，结果放到Temp链表中，每次循环结束时，调用相加的函数将Temp列表和结果链表相加，即可避免多项式的合并问题。为避免重复对内存进行分配和释放操作，可在头结点中记录当前链表的长度，提前分配Temp链表的空间，循环中只对值进行操作即可。</p>
-<p>此想法未经代码验证。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://yoursite.com/2017/07/06/Lists/" data-id="cj4wg2rc70001tknr8p6b5o9l" class="article-share-link" data-share="baidu" data-title="Lists">分享到</a>
-      
-
-      
-        <a href="http://yoursite.com/2017/07/06/Lists/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Data-Structure/">Data Structure</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
 
 
-  
-    <article id="post-test" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/04/test/" class="article-date">
-  <time datetime="2017-07-04T12:09:05.000Z" itemprop="datePublished">2017-07-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/04/test/">test</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>这是一篇测试文章。<br>此博客用于记录编程学习。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://yoursite.com/2017/07/04/test/" data-id="cj4wg2rcg0003tknr7mg5kj8v" class="article-share-link" data-share="baidu" data-title="test">分享到</a>
-      
-
-      
-        <a href="http://yoursite.com/2017/07/04/test/#ds-thread" class="article-comment-link">评论</a>
-      
-
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="2017/07/09/Lists-2/" data-title="Lists(2)" data-url="http://yoursite.com/2017/07/09/Lists-2/"></div>
+  </section>
 </section>
       
       <aside id="sidebar">
