@@ -1,0 +1,294 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Stacks(1) | Xookie</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="今天看了栈的一些内容。C语言的话，栈的实现基本分两种，一种是链表，一种是数组。链表的话没啥可说的，就是对头结点后的一个节点进行push和pop操作，优点是操作简单，但是频繁push和pop的话，malloc和free运行次数过多会导致程序开销很大。用数组的话就很简单了，push和pop操作很快。不过这里有几个实现的细节，想记录一下。 Stack.h:123456struct StackRecord">
+<meta name="keywords" content="Data Structure">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Stacks(1)">
+<meta property="og:url" content="http://yoursite.com/2017/07/10/Stacks-1/index.html">
+<meta property="og:site_name" content="Xookie">
+<meta property="og:description" content="今天看了栈的一些内容。C语言的话，栈的实现基本分两种，一种是链表，一种是数组。链表的话没啥可说的，就是对头结点后的一个节点进行push和pop操作，优点是操作简单，但是频繁push和pop的话，malloc和free运行次数过多会导致程序开销很大。用数组的话就很简单了，push和pop操作很快。不过这里有几个实现的细节，想记录一下。 Stack.h:123456struct StackRecord">
+<meta property="og:updated_time" content="2017-07-10T15:14:59.218Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Stacks(1)">
+<meta name="twitter:description" content="今天看了栈的一些内容。C语言的话，栈的实现基本分两种，一种是链表，一种是数组。链表的话没啥可说的，就是对头结点后的一个节点进行push和pop操作，优点是操作简单，但是频繁push和pop的话，malloc和free运行次数过多会导致程序开销很大。用数组的话就很简单了，push和pop操作很快。不过这里有几个实现的细节，想记录一下。 Stack.h:123456struct StackRecord">
+  
+    <link rel="alternative" href="/atom.xml" title="Xookie" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  <!--[if lt IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script><![endif]-->
+  
+</head>
+<body>
+<div id="container">
+  <div id="wrap">
+    <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Xookie</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" class="search-form">
+          <input type="search" name="word" maxlength="20" class="search-form-input" placeholder="Search">
+          <input type="submit" value="" class="search-form-submit">
+          <input name=tn type=hidden value="bds">
+          <input name=cl type=hidden value="3">
+          <input name=ct type=hidden value="2097152">
+          <input type="hidden" name="si" value="yoursite.com">
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+    <div class="outer">
+      <section id="main"><article id="post-Stacks-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/10/Stacks-1/" class="article-date">
+  <time datetime="2017-07-10T14:11:50.000Z" itemprop="datePublished">2017-07-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Stacks(1)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天看了栈的一些内容。C语言的话，栈的实现基本分两种，一种是链表，一种是数组。链表的话没啥可说的，就是对头结点后的一个节点进行push和pop操作，优点是操作简单，但是频繁push和pop的话，malloc和free运行次数过多会导致程序开销很大。用数组的话就很简单了，push和pop操作很快。不过这里有几个实现的细节，想记录一下。</p>
+<p>Stack.h:<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">StackRecord</span>;</span></div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">StackRecord</span> *<span class="title">Stack</span>;</span></div><div class="line"><span class="function">Stack <span class="title">CreateStack</span><span class="params">(<span class="keyword">int</span> MaxElements)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">DisposeStack</span> <span class="params">(Stack S)</span></span>;</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> MinStackSize (2)</span></div><div class="line"><span class="comment">//...</span></div></pre></td></tr></table></figure></p>
+<p>Stack.c:<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">StackRecord</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">int</span> Capacity;</div><div class="line">	<span class="keyword">int</span> TopOfStack;</div><div class="line">	ElementType *Array;<span class="comment">//这里ElementType可以是任意类型</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function">Stack <span class="title">CreateStack</span><span class="params">(<span class="keyword">int</span> MaxElements)</span></span></div><div class="line">&#123;</div><div class="line">	Stack S = <span class="literal">NULL</span>;</div><div class="line">	<span class="keyword">if</span> (MaxElements &lt; MinStackSize)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">printf</span> (<span class="string">"Stack size too small"</span>);</div><div class="line">		<span class="keyword">return</span> S;</div><div class="line">	&#125;</div><div class="line">	S = <span class="built_in">malloc</span> (<span class="keyword">sizeof</span> (struct StackRecord));</div><div class="line">	<span class="keyword">if</span> (S == <span class="literal">NULL</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">printf</span> (<span class="string">"Out of Space!"</span>);</div><div class="line">		<span class="keyword">return</span> S;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	S-&gt;Array = <span class="built_in">malloc</span> (<span class="keyword">sizeof</span> (ElementType)*MaxElements);</div><div class="line">	<span class="keyword">if</span> (S-&gt;Array == <span class="literal">NULL</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">printf</span> (<span class="string">"Out of Space!"</span>);</div><div class="line">		<span class="keyword">return</span> S;</div><div class="line">	&#125;</div><div class="line">	S-&gt;Capacity = MaxElements;</div><div class="line">	MakeEmpty (S);</div><div class="line">	<span class="keyword">return</span> S;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">DisposeStack</span> <span class="params">(Stack S)</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span> (S != <span class="literal">NULL</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">free</span> (S-&gt;Array);</div><div class="line">		<span class="built_in">free</span> (S);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>第一点想谈的就是这种将声明和定义分开到头文件和.c文件的做法。一般的话会直接在头文件中这样写<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">StackRecord</span></span></div><div class="line">&#123;</div><div class="line">	<span class="comment">//...</span></div><div class="line">&#125;*Stack;</div></pre></td></tr></table></figure></p>
+<p>但是我觉得上面那种方法封装性更好一些。不过其实这样写也没什么，挺方便的。。<br>第二个就是这个Stack在销毁的时候先销毁S-&gt;Array，再销毁S。这是个很容易忽略的细节。看到这里的时候，我突然想，如果一个整形指针p，和一个数组名，都传给free函数，它怎么知道该销毁一个数组的内存空间还是一个整形变量的内存空间？内存空间又有多长？然后我查了下，貌似是这样的，在malloc的时候，为每块内存维护了一个chunk结构，先是chunk结构中分配的内存块大小，然后是分配的内存。也就是说，在free的时候，只要指针-4即可得到本块内存的大小，然后进行释放。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://yoursite.com/2017/07/10/Stacks-1/" data-id="cj4yahs1b0003mgnrwqsu4u4k" class="article-share-link" data-share="baidu" data-title="Stacks(1)">分享到</a>
+      
+
+      
+        <a href="http://yoursite.com/2017/07/10/Stacks-1/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Data-Structure/">Data Structure</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/07/10/近期计划/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">近期计划</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="2017/07/10/Stacks-1/" data-title="Stacks(1)" data-url="http://yoursite.com/2017/07/10/Stacks-1/"></div>
+  </section>
+</section>
+      
+      <aside id="sidebar">
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data-Structure/">Data Structure</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Plans/">Plans</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Data-Structure/" style="font-size: 20px;">Data Structure</a> <a href="/tags/Plans/" style="font-size: 10px;">Plans</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">近期文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/07/10/Stacks-1/">Stacks(1)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/10/近期计划/">近期计划</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/09/Lists-2/">Lists(2)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/06/Lists/">Lists</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/04/test/">test</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">友情链接</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="https://soooooot.github.io" target="_blank">阿彪</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+      
+    </div>
+    <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Cookie<br>
+      Powered by <a href="//hexo.io/" target="_blank">Hexo</a>
+      .
+      Theme by <a href="https://github.com/xiangming/landscape-plus" target="_blank">Landscape-plus</a>
+    </div>
+  </div>
+</footer>
+  </div>
+  <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+  <!-- totop start -->
+<div id="totop">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+
+<!-- totop end -->
+
+<!-- 多说公共js代码 start -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"reqianduan"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共js代码 end -->
+
+
+<!-- 百度分享 start -->
+
+<div id="article-share-box" class="article-share-box">
+  <div id="bdshare" class="bdsharebuttonbox article-share-links">
+    <a class="article-share-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a class="article-share-weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a class="article-share-qq" data-cmd="sqq" title="分享到QQ"></a>
+    <a class="article-share-renren" data-cmd="renren" title="分享到人人网"></a>
+    <a class="article-share-more" data-cmd="more" title="更多"></a>
+  </div>
+</div>
+<script>
+  function SetShareData(cmd, config) {
+    if (shareDataTitle && shareDataUrl) {
+      config.bdText = shareDataTitle;
+      config.bdUrl = shareDataUrl;
+    }
+    return config;
+  }
+  window._bd_share_config={
+    "common":{onBeforeClick: SetShareData},
+    "share":{"bdCustomStyle":"/css/bdshare.css"}
+  };
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+<!-- 百度分享 end -->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+</div>
+</body>
+</html>

@@ -65,6 +65,55 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-Stacks-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/10/Stacks-1/" class="article-date">
+  <time datetime="2017-07-10T14:11:50.000Z" itemprop="datePublished">2017-07-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/10/Stacks-1/">Stacks(1)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天看了栈的一些内容。C语言的话，栈的实现基本分两种，一种是链表，一种是数组。链表的话没啥可说的，就是对头结点后的一个节点进行push和pop操作，优点是操作简单，但是频繁push和pop的话，malloc和free运行次数过多会导致程序开销很大。用数组的话就很简单了，push和pop操作很快。不过这里有几个实现的细节，想记录一下。</p>
+<p>Stack.h:<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">StackRecord</span>;</span></div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">StackRecord</span> *<span class="title">Stack</span>;</span></div><div class="line"><span class="function">Stack <span class="title">CreateStack</span><span class="params">(<span class="keyword">int</span> MaxElements)</span></span>;</div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">DisposeStack</span> <span class="params">(Stack S)</span></span>;</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> MinStackSize (2)</span></div><div class="line"><span class="comment">//...</span></div></pre></td></tr></table></figure></p>
+<p>Stack.c:<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">StackRecord</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">int</span> Capacity;</div><div class="line">	<span class="keyword">int</span> TopOfStack;</div><div class="line">	ElementType *Array;<span class="comment">//这里ElementType可以是任意类型</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function">Stack <span class="title">CreateStack</span><span class="params">(<span class="keyword">int</span> MaxElements)</span></span></div><div class="line">&#123;</div><div class="line">	Stack S = <span class="literal">NULL</span>;</div><div class="line">	<span class="keyword">if</span> (MaxElements &lt; MinStackSize)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">printf</span> (<span class="string">"Stack size too small"</span>);</div><div class="line">		<span class="keyword">return</span> S;</div><div class="line">	&#125;</div><div class="line">	S = <span class="built_in">malloc</span> (<span class="keyword">sizeof</span> (struct StackRecord));</div><div class="line">	<span class="keyword">if</span> (S == <span class="literal">NULL</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">printf</span> (<span class="string">"Out of Space!"</span>);</div><div class="line">		<span class="keyword">return</span> S;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	S-&gt;Array = <span class="built_in">malloc</span> (<span class="keyword">sizeof</span> (ElementType)*MaxElements);</div><div class="line">	<span class="keyword">if</span> (S-&gt;Array == <span class="literal">NULL</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">printf</span> (<span class="string">"Out of Space!"</span>);</div><div class="line">		<span class="keyword">return</span> S;</div><div class="line">	&#125;</div><div class="line">	S-&gt;Capacity = MaxElements;</div><div class="line">	MakeEmpty (S);</div><div class="line">	<span class="keyword">return</span> S;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">DisposeStack</span> <span class="params">(Stack S)</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span> (S != <span class="literal">NULL</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">free</span> (S-&gt;Array);</div><div class="line">		<span class="built_in">free</span> (S);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>第一点想谈的就是这种将声明和定义分开到头文件和.c文件的做法。一般的话会直接在头文件中这样写<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">StackRecord</span></span></div><div class="line">&#123;</div><div class="line">	<span class="comment">//...</span></div><div class="line">&#125;*Stack;</div></pre></td></tr></table></figure></p>
+<p>但是我觉得上面那种方法封装性更好一些。不过其实这样写也没什么，挺方便的。。<br>第二个就是这个Stack在销毁的时候先销毁S-&gt;Array，再销毁S。这是个很容易忽略的细节。看到这里的时候，我突然想，如果一个整形指针p，和一个数组名，都传给free函数，它怎么知道该销毁一个数组的内存空间还是一个整形变量的内存空间？内存空间又有多长？然后我查了下，貌似是这样的，在malloc的时候，为每块内存维护了一个chunk结构，先是chunk结构中分配的内存块大小，然后是分配的内存。也就是说，在free的时候，只要指针-4即可得到本块内存的大小，然后进行释放。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://yoursite.com/2017/07/10/Stacks-1/" data-id="cj4yahs1b0003mgnrwqsu4u4k" class="article-share-link" data-share="baidu" data-title="Stacks(1)">分享到</a>
+      
+
+      
+        <a href="http://yoursite.com/2017/07/10/Stacks-1/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Data-Structure/">Data Structure</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-近期计划" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/07/10/近期计划/" class="article-date">
@@ -93,7 +142,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/2017/07/10/近期计划/" data-id="cj4x52dkt0004nwnrfzrsxbn5" class="article-share-link" data-share="baidu" data-title="近期计划">分享到</a>
+        <a data-url="http://yoursite.com/2017/07/10/近期计划/" data-id="cj4yahs20000amgnra8dagd5o" class="article-share-link" data-share="baidu" data-title="近期计划">分享到</a>
       
 
       
@@ -135,14 +184,14 @@
         <p>前天用链表实现了多项式的加法和乘法。具体代码由于在公司的电脑上，在这里就不贴了。实现的时候注意到几个问题，也是之前自己忽略的，在这里记录一下吧。</p>
 <p></p><h5>1.C语言的函数中变量的声明位置</h5><br>这个问题可以说是比较低级了，也是C语言的基础知识。我写了下面这段代码：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">MultPolynomial</span> <span class="params">(<span class="keyword">const</span> Polynomial Poly1, <span class="keyword">const</span> Polynomial Poly2, Polynomial PolyProd)</span></span></div><div class="line">&#123;</div><div class="line">	Polynomial Temp1 = Poly1-&gt;Next;</div><div class="line">	Polynomial Temp2 = Poly2-&gt;Next;</div><div class="line">	<span class="keyword">if</span> ((Temp1 == <span class="literal">NULL</span>) || (Temp2 == <span class="literal">NULL</span>))</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> FALSE;</div><div class="line">	&#125;</div><div class="line">	Polynomial TempNode;</div><div class="line">	Polynomial TempPointer;</div><div class="line">	<span class="comment">//...</span></div><div class="line">	<span class="keyword">return</span> TRUE;</div><div class="line">&#125;</div></pre></td></tr></table></figure><p></p>
 <p>这么写是想先判断一下传进来的两个多项式是否为空，如果为空也无需声明变量，直接退出函数。写完编译发现编译不通过，找了半天原因也没找到，然后我将下面的TempNode和TempPointer挪到if语句前面，果然通过了编译。后来问阿彪，阿彪说是声明位置不对，必须要放在函数开始的地方，放到执行语句之前。上网查了下，果然是这样，标准C就是这么要求的。之前这么写没问题是因为C++对这个是没有要求的。这个问题其实是一个很小的细节，但是我觉得还是因为基础知识不够扎实吧。</p>
-<p></p><h5>2.无头结点的链表插入操作</h5><br>前几天的博客里说，加入头结点使对链表的操作统一，方便操作，突然想起来《C和指针》这本书里有相关的内容，又去看了一下。书上提供了一种无须头结点的插入方法，且操作也是统一的，代码也很简洁。这里把代码抄上来好了。。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"sll_node.h"</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> FALSE 0</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> TRUE 1</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">sll_insert</span> <span class="params">(<span class="keyword">register</span> Node **linkp, <span class="keyword">int</span> new_value)</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">register</span> Node *current;</div><div class="line">	<span class="keyword">register</span> Node *New;</div><div class="line">	</div><div class="line">	<span class="keyword">while</span> ((current = *linkp) != <span class="literal">NULL</span> &amp;&amp; current-&gt;value &lt; new_value)</div><div class="line">		linkp = &amp;current-&gt;link;</div><div class="line"></div><div class="line">	<span class="keyword">new</span> = (Node *)<span class="built_in">malloc</span> (<span class="keyword">sizeof</span> (Node));</div><div class="line">	<span class="keyword">if</span> (<span class="keyword">new</span> == <span class="literal">NULL</span>)</div><div class="line">		<span class="keyword">return</span> FALSE;</div><div class="line">	<span class="keyword">new</span>-&gt;value = <span class="keyword">new</span>-value;</div><div class="line"></div><div class="line">	<span class="keyword">new</span>-link = current;</div><div class="line">	*linkp = <span class="keyword">new</span>;</div><div class="line">	<span class="keyword">return</span> TRUE;</div><div class="line">&#125;</div></pre></td></tr></table></figure><p></p>
+<p></p><h5>2.无头结点的链表插入操作</h5><br>前几天的博客里说，加入头结点使对链表的操作统一，方便操作，突然想起来《C和指针》这本书里有相关的内容，又去看了一下。书上提供了一种无须头结点的插入方法，且操作也是统一的，代码也很简洁。这里把代码抄上来好了。。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"sll_node.h"</span></span></div><div class="line"></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> FALSE 0</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> TRUE 1</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">sll_insert</span> <span class="params">(<span class="keyword">register</span> Node **linkp, <span class="keyword">int</span> new_value)</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">register</span> Node *current;</div><div class="line">	<span class="keyword">register</span> Node *New;</div><div class="line">	</div><div class="line">	<span class="keyword">while</span> ((current = *linkp) != <span class="literal">NULL</span> &amp;&amp; current-&gt;value &lt; new_value)</div><div class="line">		linkp = &amp;current-&gt;link;</div><div class="line"></div><div class="line">	New = (Node *)<span class="built_in">malloc</span> (<span class="keyword">sizeof</span> (Node));</div><div class="line">	<span class="keyword">if</span> (New == <span class="literal">NULL</span>)</div><div class="line">		<span class="keyword">return</span> FALSE;</div><div class="line">	New-&gt;value = New-value;</div><div class="line"></div><div class="line">	New-link = current;</div><div class="line">	*linkp = New;</div><div class="line">	<span class="keyword">return</span> TRUE;</div><div class="line">&#125;</div></pre></td></tr></table></figure><p></p>
 <p><img src="/img/list_2_1.png" alt="初始化"><br><img src="/img/list_2_2.png" alt="结点移动"><br>这个函数主要的思想是每个结点都有指向该结点的指针。以下讨论的都是没有头结点的情况。对于首元结点，头指针便是指向首元结点的指针，对于其他普通结点，前一节点的link指针便是指向自己结点的指针。若链表发生改变，通过修改对指向该节点的指针即可。注意这里修改的是<strong>指向该节点的指针</strong>而不是之前的前一节点的link值。虽然对于除了首元结点的所有节点来说，指向该结点的指针就是前一节点的link值，但是首元结点并非如此，而且这里就是为了统一这种情况才用了指针。这样当移动结点时，我们保存该指针即可。<br>不得不说这个方法确实很巧妙。这本书我之前也读过一遍，当时对于这些概念没有仔细研究，现在看来书读一遍还是不行的。。不过当然，如果不读的话我也不会想起来这本书上有相关内容。可能也是一个必经的过程吧，就像小时候背诗词就是死记硬背，长大了才会深刻体会到那些诗的意思吧。。 </p>
 
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/2017/07/09/Lists-2/" data-id="cj4x52dkc0000nwnrqzr8z9u7" class="article-share-link" data-share="baidu" data-title="Lists(2)">分享到</a>
+        <a data-url="http://yoursite.com/2017/07/09/Lists-2/" data-id="cj4yahs0r0000mgnrzqgw09za" class="article-share-link" data-share="baidu" data-title="Lists(2)">分享到</a>
       
 
       
@@ -197,7 +246,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/2017/07/06/Lists/" data-id="cj4x52dkk0001nwnr5ur3lbf6" class="article-share-link" data-share="baidu" data-title="Lists">分享到</a>
+        <a data-url="http://yoursite.com/2017/07/06/Lists/" data-id="cj4yahs100001mgnrn8xd67cb" class="article-share-link" data-share="baidu" data-title="Lists">分享到</a>
       
 
       
@@ -242,7 +291,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/2017/07/04/test/" data-id="cj4x52dkr0003nwnr7grt502l" class="article-share-link" data-share="baidu" data-title="test">分享到</a>
+        <a data-url="http://yoursite.com/2017/07/04/test/" data-id="cj4yahs1d0004mgnrdeu2sf9h" class="article-share-link" data-share="baidu" data-title="test">分享到</a>
       
 
       
@@ -268,7 +317,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data-Structure/">Data Structure</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Plans/">Plans</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data-Structure/">Data Structure</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Plans/">Plans</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -286,7 +335,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">5</span></li></ul>
     </div>
   </div>
 
@@ -296,6 +345,10 @@
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/07/10/Stacks-1/">Stacks(1)</a>
+          </li>
         
           <li>
             <a href="/2017/07/10/近期计划/">近期计划</a>
