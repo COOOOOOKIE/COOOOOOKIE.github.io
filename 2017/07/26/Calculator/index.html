@@ -4,14 +4,19 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: Plans | Xookie</title>
+  <title>Calculator | Xookie</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Xookie">
-<meta property="og:url" content="http://yoursite.com/tags/Plans/index.html">
+  <meta name="description" content="最近用栈实现了个计算器。本来自己以为很简单，但是真正实现起来的时候就会有各种细节考虑不到的情况。说说我的实现吧。使用栈的计算器可以实现括号和符号优先级的计算。一开始觉得用两个栈，一个栈用来将中缀表达式改为后缀表达式，另一个用于计算后缀表达式。但是后缀表达式的保存和计算，需要一个队列的数据结构来实现。所以最后是用了两个栈和一个队列。后经阿彪提醒，其实一个栈也是可以的，因为计算的时候，后缀表达式应该已">
+<meta name="keywords" content="Data Structure">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Calculator">
+<meta property="og:url" content="http://yoursite.com/2017/07/26/Calculator/index.html">
 <meta property="og:site_name" content="Xookie">
+<meta property="og:description" content="最近用栈实现了个计算器。本来自己以为很简单，但是真正实现起来的时候就会有各种细节考虑不到的情况。说说我的实现吧。使用栈的计算器可以实现括号和符号优先级的计算。一开始觉得用两个栈，一个栈用来将中缀表达式改为后缀表达式，另一个用于计算后缀表达式。但是后缀表达式的保存和计算，需要一个队列的数据结构来实现。所以最后是用了两个栈和一个队列。后经阿彪提醒，其实一个栈也是可以的，因为计算的时候，后缀表达式应该已">
+<meta property="og:updated_time" content="2017-07-26T12:24:12.207Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Xookie">
+<meta name="twitter:title" content="Calculator">
+<meta name="twitter:description" content="最近用栈实现了个计算器。本来自己以为很简单，但是真正实现起来的时候就会有各种细节考虑不到的情况。说说我的实现吧。使用栈的计算器可以实现括号和符号优先级的计算。一开始觉得用两个栈，一个栈用来将中缀表达式改为后缀表达式，另一个用于计算后缀表达式。但是后缀表达式的保存和计算，需要一个队列的数据结构来实现。所以最后是用了两个栈和一个队列。后经阿彪提醒，其实一个栈也是可以的，因为计算的时候，后缀表达式应该已">
   
     <link rel="alternative" href="/atom.xml" title="Xookie" type="application/atom+xml">
   
@@ -63,40 +68,65 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/07/10/近期计划/" class="archive-article-date">
-  <time datetime="2017-07-09T19:16:50.000Z" itemprop="datePublished">7月 10</time>
+      <section id="main"><article id="post-Calculator" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/26/Calculator/" class="article-date">
+  <time datetime="2017-07-26T11:57:47.000Z" itemprop="datePublished">2017-07-26</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/07/10/近期计划/">近期计划</a>
+    <h1 class="article-title" itemprop="name">
+      Calculator
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近用栈实现了个计算器。本来自己以为很简单，但是真正实现起来的时候就会有各种细节考虑不到的情况。说说我的实现吧。<br>使用栈的计算器可以实现括号和符号优先级的计算。一开始觉得用两个栈，一个栈用来将中缀表达式改为后缀表达式，另一个用于计算后缀表达式。但是后缀表达式的保存和计算，需要一个队列的数据结构来实现。所以最后是用了两个栈和一个队列。后经阿彪提醒，其实一个栈也是可以的，因为计算的时候，后缀表达式应该已经转换完成了。<br>中缀转换为后缀的方法是，遇到数字，就直接输出到队列；遇到符号，则一直pop到比自己小或者弹空栈内所有元素或者到左括号为止；左括号push进栈；右括号则一直pop到左括号弹出栈；输入完成后弹出所有栈内元素。<br>这个时候又遇到了个问题，就是元素在压入队列时，有数字和符号，怎么统一类型呢？阿彪说可以使用一个结构体，但是我觉得用结构体的话有点浪费，而且每次压入元素时需要修改元素结构体的值，使用元素的话需要进行对结构体的判断。<br>后来我想了个办法，就是既然用来判断的字符最小的是空格，32，而且我计划需要计算的数字不超过20个，那么，我就可以用个长度20的double数组来记录所有的数字，然后在相应位置将该数字在数组的index压入队列，使用的时候判断一下，如果小于32，那就直接从数组里取值就可以了。好吧，其实这个方法和结构体那个差别不大，我就是懒得再写一个结构体了。。<br>写的时候还发现一个问题。。是继c语言声明放到函数顶部之后发现的第二个初学者的问题。。说出来你可能不信，我一直认为c语言是有布尔值的，然后这两天这个一直有问题，我还以为是别的问题一直没在意，结果到最后什么都改过了还是有问题。。c语言和cpp还是有些区别的。。<br>另外用递归的方式写了个遍历打印某个路径下所有文件和文件夹的小程序，这个倒没啥大问题。不过自己写出来还是挺有趣的。<br>好了先这些吧。</p>
 
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://yoursite.com/2017/07/26/Calculator/" data-id="cj5kzfpmh0000ngnr0fzb7wa8" class="article-share-link" data-share="baidu" data-title="Calculator">分享到</a>
+      
+
+      
+        <a href="http://yoursite.com/2017/07/26/Calculator/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Data-Structure/">Data Structure</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/07/10/Stacks-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">Stacks(1)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="2017/07/26/Calculator/" data-title="Calculator" data-url="http://yoursite.com/2017/07/26/Calculator/"></div>
+  </section>
 </section>
       
       <aside id="sidebar">

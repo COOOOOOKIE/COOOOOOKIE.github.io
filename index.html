@@ -65,6 +65,51 @@
     <div class="outer">
       <section id="main">
   
+    <article id="post-Calculator" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/26/Calculator/" class="article-date">
+  <time datetime="2017-07-26T11:57:47.000Z" itemprop="datePublished">2017-07-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/26/Calculator/">Calculator</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近用栈实现了个计算器。本来自己以为很简单，但是真正实现起来的时候就会有各种细节考虑不到的情况。说说我的实现吧。<br>使用栈的计算器可以实现括号和符号优先级的计算。一开始觉得用两个栈，一个栈用来将中缀表达式改为后缀表达式，另一个用于计算后缀表达式。但是后缀表达式的保存和计算，需要一个队列的数据结构来实现。所以最后是用了两个栈和一个队列。后经阿彪提醒，其实一个栈也是可以的，因为计算的时候，后缀表达式应该已经转换完成了。<br>中缀转换为后缀的方法是，遇到数字，就直接输出到队列；遇到符号，则一直pop到比自己小或者弹空栈内所有元素或者到左括号为止；左括号push进栈；右括号则一直pop到左括号弹出栈；输入完成后弹出所有栈内元素。<br>这个时候又遇到了个问题，就是元素在压入队列时，有数字和符号，怎么统一类型呢？阿彪说可以使用一个结构体，但是我觉得用结构体的话有点浪费，而且每次压入元素时需要修改元素结构体的值，使用元素的话需要进行对结构体的判断。<br>后来我想了个办法，就是既然用来判断的字符最小的是空格，32，而且我计划需要计算的数字不超过20个，那么，我就可以用个长度20的double数组来记录所有的数字，然后在相应位置将该数字在数组的index压入队列，使用的时候判断一下，如果小于32，那就直接从数组里取值就可以了。好吧，其实这个方法和结构体那个差别不大，我就是懒得再写一个结构体了。。<br>写的时候还发现一个问题。。是继c语言声明放到函数顶部之后发现的第二个初学者的问题。。说出来你可能不信，我一直认为c语言是有布尔值的，然后这两天这个一直有问题，我还以为是别的问题一直没在意，结果到最后什么都改过了还是有问题。。c语言和cpp还是有些区别的。。<br>另外用递归的方式写了个遍历打印某个路径下所有文件和文件夹的小程序，这个倒没啥大问题。不过自己写出来还是挺有趣的。<br>好了先这些吧。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        <a data-url="http://yoursite.com/2017/07/26/Calculator/" data-id="cj5kzfpmh0000ngnr0fzb7wa8" class="article-share-link" data-share="baidu" data-title="Calculator">分享到</a>
+      
+
+      
+        <a href="http://yoursite.com/2017/07/26/Calculator/#ds-thread" class="article-comment-link">评论</a>
+      
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Data-Structure/">Data Structure</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Stacks-1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/07/10/Stacks-1/" class="article-date">
@@ -97,7 +142,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/2017/07/10/Stacks-1/" data-id="cj4yahs1b0003mgnrwqsu4u4k" class="article-share-link" data-share="baidu" data-title="Stacks(1)">分享到</a>
+        <a data-url="http://yoursite.com/2017/07/10/Stacks-1/" data-id="cj5kzfpol0005ngnrqigndrl8" class="article-share-link" data-share="baidu" data-title="Stacks(1)">分享到</a>
       
 
       
@@ -142,7 +187,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/2017/07/10/近期计划/" data-id="cj4yahs20000amgnra8dagd5o" class="article-share-link" data-share="baidu" data-title="近期计划">分享到</a>
+        <a data-url="http://yoursite.com/2017/07/10/近期计划/" data-id="cj5kzfpou0008ngnrikml7arp" class="article-share-link" data-share="baidu" data-title="近期计划">分享到</a>
       
 
       
@@ -191,7 +236,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/2017/07/09/Lists-2/" data-id="cj4yahs0r0000mgnrzqgw09za" class="article-share-link" data-share="baidu" data-title="Lists(2)">分享到</a>
+        <a data-url="http://yoursite.com/2017/07/09/Lists-2/" data-id="cj5kzfpo70004ngnrq3fv96ca" class="article-share-link" data-share="baidu" data-title="Lists(2)">分享到</a>
       
 
       
@@ -246,7 +291,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/2017/07/06/Lists/" data-id="cj4yahs100001mgnrn8xd67cb" class="article-share-link" data-share="baidu" data-title="Lists">分享到</a>
+        <a data-url="http://yoursite.com/2017/07/06/Lists/" data-id="cj5kzfpn60001ngnrwqse8w0c" class="article-share-link" data-share="baidu" data-title="Lists">分享到</a>
       
 
       
@@ -291,7 +336,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="http://yoursite.com/2017/07/04/test/" data-id="cj4yahs1d0004mgnrdeu2sf9h" class="article-share-link" data-share="baidu" data-title="test">分享到</a>
+        <a data-url="http://yoursite.com/2017/07/04/test/" data-id="cj5kzfpo10003ngnrakp0x09s" class="article-share-link" data-share="baidu" data-title="test">分享到</a>
       
 
       
@@ -317,7 +362,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data-Structure/">Data Structure</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Plans/">Plans</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data-Structure/">Data Structure</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Plans/">Plans</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -335,7 +380,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">5</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 
@@ -345,6 +390,10 @@
     <h3 class="widget-title">近期文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/07/26/Calculator/">Calculator</a>
+          </li>
         
           <li>
             <a href="/2017/07/10/Stacks-1/">Stacks(1)</a>
@@ -360,10 +409,6 @@
         
           <li>
             <a href="/2017/07/06/Lists/">Lists</a>
-          </li>
-        
-          <li>
-            <a href="/2017/07/04/test/">test</a>
           </li>
         
       </ul>
